@@ -164,7 +164,7 @@ def cutImageByHeight(imgPath:pathlib.Path,height:int,finalPath:pathlib.Path):
     cv2.imwrite(str(finalPath), image) # Save.
     return finalPath
 
-class VideoInfo:
+class VideoClass:
     def __init__(self,path:str):
         self.filename = path.split('/')[-1]
         self.path = path
