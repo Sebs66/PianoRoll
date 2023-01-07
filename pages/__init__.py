@@ -1,0 +1,1 @@
+# For pages to be treated as a module.
