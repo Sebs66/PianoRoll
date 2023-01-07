@@ -1,32 +1,42 @@
 import tkinter as tk
 from utils.openCV_fn import VideoClass, resize_Image,takeFramesV2, cutImageByHeight, mergeImgs
 from PIL import Image, ImageTk, ImageEnhance
+from tkinter import filedialog
+
+#/ Need to import the class just to access to the instance in the dict for show_frame
 
 LARGE_FONT = ('Verdana',12)
 
-class CreateNewPianoRoll(tk.Frame): #/ Select File Page.
-    def __init__(self,parent,controller):
+class NewPianoRoll(tk.Frame): #/ Select File Page.
+    name = 'NewPianoRoll'
+    '''
+    This class represents the view to create a new piano roll image.
+    The constructor takes the container in which the page/view will be created and the instance of the main app class: PianoRollApp
+    '''
+    def __init__(self,parent,pianoRollInstance):
+        #/ parent es el contenedor en el que estará contenida esta página.
+        #/ pianoRollInstance -> instancia de la clase PianoRollApp.
         self.title = 'CreateNewPianoRoll Page'
         self.parent = parent
         tk.Frame.__init__(self,parent)
         label = tk.Label(self,text='Create a new Piano Roll',font=LARGE_FONT) #/ Create label object
         label.pack(pady=10,padx=10) #/ Add to the window.
         subFrame = tk.Frame(self)
-        button1 = tk.Button(subFrame,text='Back to Home',command=lambda : controller.show_frame(StartPage))
+        button1 = tk.Button(subFrame,text='Back to Home',command=lambda : pianoRollInstance.show_frame('StartPage')) #/ instance
         button1.grid(row=1,column=0,sticky='nw')
-        button2 = tk.Button(subFrame,text='Choose Video File',command= lambda : self.selectFile(controller))
+        button2 = tk.Button(subFrame,text='Choose Video File',command= lambda : self.selectFile(pianoRollInstance))
         button2.grid(row=1,column=1,sticky='nw')
         self.subFrame_videoInfo = tk.Label(self,background='green')
         subFrame.pack()
         self.subFrame_videoInfo.pack(pady = 100,side=tk.TOP,fill=tk.BOTH,expand=True) #/ canvas with the video info.
     
-    def selectFile(self,controller):
+    def selectFile(self,pianoRollInstance):
         print('selectFile')
         path = filedialog.askopenfilename(initialdir='E:/Media',title='Select video file',filetypes=(('.mkv','*.mkv'),('all files','*.*')))
         if path == '': return
-        self.getFile(path,controller)
+        self.showFile(path,pianoRollInstance)
 
-    def getFile(self,path:str,controller):
+    def showFile(self,path:str,pianoRollInstance):
         print(path)
         video = VideoClass(path) #/ Creating an instance of VideoClass.
         minutes = int(video.duration/60)
@@ -44,12 +54,12 @@ class CreateNewPianoRoll(tk.Frame): #/ Select File Page.
         frame_btns.pack()
         textlabel = tk.Label(frame_btns,text='Define frame interval:')
         entry_intervals = tk.Entry(frame_btns)
-        take_pictures_button = tk.Button(frame_btns,text='Process Video',command=lambda: self.processVideo(video,20,int(entry_intervals.get()),controller))
+        take_pictures_button = tk.Button(frame_btns,text='Process Video',command=lambda: self.processVideo(video,20,int(entry_intervals.get()),pianoRollInstance))
         textlabel.grid(row=0,column=0)
         entry_intervals.grid(row=0,column=1)
         take_pictures_button.grid(row=0,column=2)
     
-    def processVideo(self,videoClass:VideoInfo,pictureLimit,interval,controller):
+    def processVideo(self,videoClass:VideoClass,pictureLimit,interval,pianoRollInstance):
         if interval == '':
             print('Try another interval value!')
             return
@@ -58,8 +68,8 @@ class CreateNewPianoRoll(tk.Frame): #/ Select File Page.
         print(videoClass.frame_count/interval)
         takeFramesV2(videoClass.path,interval,pictureLimit)
         print(f'Tomamos las {pictureLimit} imágenes.')
-        #/ controller es la app
+        #/ pianoRollInstance es la app
         #/ Construimos la pagina con la info que sacamos. La pagina ya existe como referencia, pero es una pagina vacía.    
-        GetImagesHeightObject = controller.frames[GetImagesHeight]    
-        GetImagesHeight.buildPage(GetImagesHeightObject,videoClass) #/ Builds the page and shows it!
+        #SetImagesHeightObject = pianoRollInstance.frames[SetImagesHeight]    
+        #SetImagesHeight.buildPage(SetImagesHeightObject,videoClass) #/ Builds the page and shows it!
         

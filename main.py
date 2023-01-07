@@ -1,10 +1,10 @@
 import tkinter as tk
 from tkinter import ttk #/ Styling : ccs for tkinter.
-from tkinter import filedialog
+
 from PIL import Image, ImageTk, ImageEnhance
 import pathlib
 
-from utils.openCV_fn import VideoInfo, resize_Image,takeFramesV2, cutImageByHeight, mergeImgs
+from utils.openCV_fn import VideoClass, resize_Image,takeFramesV2, cutImageByHeight, mergeImgs
 from utils.various import buildLinkedList, Node, LinkedList
 
 LARGE_FONT = ('Verdana',12)
@@ -96,10 +96,6 @@ class PianoRollApp(tk.Tk): #/ Todo lo que está dentro del parentesis es para he
     def show_frame(self,controller): #/ funcion para mandar el frame del dict adelante.
         frame = self.frames[controller]
         frame.tkraise() #/ tkraise -> heredado de tk.Tk
-
-
-
-
 
 class GalleryPianoRolls(tk.Frame):
     def __init__(self,parent,controller):
