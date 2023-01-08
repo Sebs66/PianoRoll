@@ -27,13 +27,13 @@ class NewPianoRoll(tk.Frame): #/ Select File Page.
         subFrame = tk.Frame(self)
         button1 = tk.Button(subFrame,text='Back to Home',command=lambda : pianoRollInstance.show_frame('StartPage')) #/ instance
         button1.grid(row=1,column=0,sticky='nw')
-        button2 = tk.Button(subFrame,text='Choose Video File',command= lambda : self.selectFile(pianoRollInstance))
+        button2 = tk.Button(subFrame,text='Choose Video File',command= self.selectFile)
         button2.grid(row=1,column=1,sticky='nw')
         self.subFrame_videoInfo = tk.Label(self,background='green')
         subFrame.pack()
         self.subFrame_videoInfo.pack(pady = 100,side=tk.TOP,fill=tk.BOTH,expand=True) #/ canvas with the video info.
     
-    def selectFile(self,pianoRollInstance):
+    def selectFile(self):
         print('selectFile')
         path = filedialog.askopenfilename(initialdir='E:/Media',title='Select video file',filetypes=(('.mkv','*.mkv'),('all files','*.*')))
         if path == '': return

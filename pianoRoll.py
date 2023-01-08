@@ -13,8 +13,8 @@ class PianoRollApp(tk.Tk): #/ Tk : Toplevel widget of Tk which represents mostly
         tk.Tk.geometry(self,resolution)
         self.container = tk.Frame(self)
         self.container.pack(side='top',fill='both',expand=True)
-        #self.resize = (1700, 800) #/ parametro para mostrar imagenes más pequeñas. Debemos recuperar el tamaño normal.
-        self.resize = (1600, 900) #/ parametro para mostrar imagenes más pequeñas. Debemos recuperar el tamaño normal.
+        self.resize = (1700, 800) #/ parametro para mostrar imagenes más pequeñas. Debemos recuperar el tamaño normal.
+        #self.resize = (1600, 900) #/ parametro para mostrar imagenes más pequeñas. Debemos recuperar el tamaño normal.
         #/ fill va a llenar todo el espacio en ese pack, expand va a llenar más allá del espacio si esque hay más disponible.
         self.container.grid_rowconfigure(0,weight=1) #/ 0 es el minimo, weight es prioridad.
         self.container.grid_columnconfigure(0,weight=1)
@@ -22,7 +22,6 @@ class PianoRollApp(tk.Tk): #/ Tk : Toplevel widget of Tk which represents mostly
         
         for Frame in (StartPage, NewPianoRoll, GetImagesHeight): #/ acá vamos inicializando todas las views y las metemos en el diccionario, para poder mostrarlas luego.
             frame = Frame(self) #/ construimos la instancia de cada clase de view, pasamos el contenedor y la instancia de PianoRollApp.
-            print('type(frame)',type(frame))
             self.frames[Frame.name] = frame
             frame.grid(row=0,column=0,sticky='nsew') #sticky nsew es a todas las direcciones.
         

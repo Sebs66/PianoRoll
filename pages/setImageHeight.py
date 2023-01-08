@@ -210,6 +210,8 @@ def release(event,self):
     Ycoord_adjusted = (self.img_height*event.y)/self.resize[1]
     self.Ycoord = Ycoord_adjusted
     print('Ycoord Adjusted',self.Ycoord)
+    #/ Acá continuamos.
+    #/ Creamos la pagina (instancia) de la clase OverlapImgs
     #OverlapImgs.buildPage(self.controller.frames[OverlapImgs],self.node,self.Ycoord)
 
 def on_mouse_event(event,text:tk.StringVar):
