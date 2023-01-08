@@ -12,8 +12,8 @@ class SetImagesHeight(tk.Frame):
         self.resize = pianoRollInstance.resize
         tk.Frame.__init__(self,self.parent)
         self.title = 'SetImagesHeight Page'
-        #self.subFrame = tk.Frame(self)
-        #self.subFrame.pack()
+        self.subFrame = tk.Frame(self)
+        self.subFrame.pack()
         self.video_path = None
         print(f'buildPage, {self.title}')
         self.videoClass = videoClass
@@ -31,19 +31,19 @@ class SetImagesHeight(tk.Frame):
         #self.pianoRollInstance.geometry('1900x900')
         self.text = tk.StringVar()
         self.text.set('Please select the cover image for the long notes image')
-        instructions_label = tk.Label(self,textvariable=self.text)
-        self.my_label = tk.Label(self,image=my_img)
+        instructions_label = tk.Label(self.subFrame,textvariable=self.text)
+        self.my_label = tk.Label(self.subFrame,image=my_img)
         self.current_img = 1
         self.status_text = tk.StringVar() #/ tk inter specific!
         self.status_text.set(f'{self.current_img}/{self.listLen}')
         self.path_text = tk.StringVar() #/ tk inter specific!
         self.path_text.set(self.node.val)
-        status_label = tk.Label(self,textvariable= self.status_text,bd=1,relief='sunken',anchor=tk.E) #/ se ancla al este (derecha)
-        path_label = tk.Label(self,textvariable= self.path_text,bd=1,relief='sunken',anchor=tk.W)
-        self.button_back = tk.Button(self,text='<<',command= self.go_back)
-        self.button_forward = tk.Button(self,text='>>',command= self.go_forward)
+        status_label = tk.Label(self.subFrame,textvariable= self.status_text,bd=1,relief='sunken',anchor=tk.E) #/ se ancla al este (derecha)
+        path_label = tk.Label(self.subFrame,textvariable= self.path_text,bd=1,relief='sunken',anchor=tk.W)
+        self.button_back = tk.Button(self.subFrame,text='<<',command= self.go_back)
+        self.button_forward = tk.Button(self.subFrame,text='>>',command= self.go_forward)
         self.button_select_iterations = 0
-        self.button_select = tk.Button(self,text='Select Image',command= self.select)
+        self.button_select = tk.Button(self.subFrame,text='Select Image',command= self.select)
         instructions_label.grid(row=0,column=0,columnspan=3)
         self.my_label.grid(row=1,column=0,columnspan=3)
         self.button_back.grid(row=2,column=0)
@@ -63,7 +63,7 @@ class SetImagesHeight(tk.Frame):
             my_img = ImageTk.PhotoImage(Image.open(imgPath).resize(self.resize))
             my_img.photo_ref = my_img # keep a reference
             self.my_label.grid_forget()
-            self.my_label = tk.Label(self,image=my_img)
+            self.my_label = tk.Label(self.subFrame,image=my_img)
             self.my_label.grid(row=1,column=0,columnspan=3)
         return
 
@@ -78,7 +78,7 @@ class SetImagesHeight(tk.Frame):
             my_img = ImageTk.PhotoImage(Image.open(imgPath).resize(self.resize))
             my_img.photo_ref = my_img # keep a reference
             self.my_label.grid_forget()
-            self.my_label = tk.Label(self,image=my_img)
+            self.my_label = tk.Label(self.subFrame,image=my_img)
             self.my_label.grid(row=1,column=0,columnspan=3)
         return
 
@@ -107,16 +107,19 @@ class GetImagesHeight(tk.Frame):
         parent = pianoRollInstance.container
         tk.Frame.__init__(self,parent)
         self.parent = pianoRollInstance.container
+        self.pianoRollInstance = pianoRollInstance
+        #self.pianoRollInstance.geometry('1900x900')
+        pianoRollInstance.geometry('1900x900')
         self.title = 'GetImagesHeight Page'
         self.subFrame = tk.Frame(self)
         self.subFrame.pack()
         self.video_path = None
+        self.resize = pianoRollInstance.resize
 
-    def buildPage(self,pianoRollInstance,videoClass):
+    def buildPage(self,videoClass):
         #/ path its video path, not data path.
         print(f'buildPage, {self.title}')
         self.videoClass = videoClass
-        self.resize = pianoRollInstance.resize
         dataPath = str(pathlib.Path(videoClass.path).parent.joinpath('data'))
         self.dataPath = dataPath
         print(dataPath)
@@ -128,7 +131,6 @@ class GetImagesHeight(tk.Frame):
         self.img_height = ImageTk.PhotoImage(img).height()
         my_img = ImageTk.PhotoImage(img.resize(self.resize))
         my_img.photo_ref = my_img # keep a reference
-        pianoRollInstance.geometry('1900x900')
         self.text = tk.StringVar()
         self.text.set('Please select the cover image for the long notes image')
         instructions_label = tk.Label(self.subFrame,textvariable=self.text)
@@ -151,7 +153,6 @@ class GetImagesHeight(tk.Frame):
         self.button_forward.grid(row=2,column=2)
         status_label.grid(row=3,column=2,columnspan=1,sticky=tk.W+tk.E) #/ sticky: se amplia de west a east
         path_label.grid(row=3,column=0,columnspan=2,sticky=tk.W+tk.E) #/ sticky: se amplia de west a east
-        self.controller.show_frame(GetImagesHeight) #/ Go to page!
 
     def go_forward(self):
         #print('go_forward()')

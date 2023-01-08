@@ -77,14 +77,9 @@ class NewPianoRoll(tk.Frame): #/ Select File Page.
         #takeFramesV2(videoClass.path,interval,pictureLimit)
         print(f'Tomamos las {pictureLimit} imágenes.')
         #/ pianoRollInstance es la app
-        #/ Construimos la pagina con la info que sacamos. La pagina ya existe como referencia, pero es una pagina vacía.
+        #/ Creamos una nueva ventana y la mostramos!.
         instance =  SetImagesHeight(self.pianoRollInstance,videoClass)
         self.pianoRollInstance.add_page(instance)
-        self.pianoRollInstance.show_frame('StartPage')
-        self.pianoRollInstance.show_frame('NewPianoRoll')
         self.pianoRollInstance.show_frame('SetImagesHeight')
-        self.pianoRollInstance.show_frame('GetImagesHeight')
-        instance = self.pianoRollInstance.frames['GetImagesHeight']
-        instance.buildPage(self.pianoRollInstance,videoClass)
 
         
